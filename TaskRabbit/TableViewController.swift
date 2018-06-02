@@ -12,10 +12,15 @@ class TableViewController: UITableViewController {
     
     var newTask : String = ""
     var tasks : [String] = ["Finish TaskRabbit app" , "Learn Thai" , "Finish iOS Udemy classes"];
+    var defaults = UserDefaults.standard;
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
+        if let tasksFromDefault = defaults.array(forKey: "tasksArray"){
+            tasks = tasksFromDefault as! [String];
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -60,6 +65,7 @@ class TableViewController: UITableViewController {
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             self.newTask = (alert.textFields?[0].text)!;
             self.tasks.append(self.newTask);
+            self.defaults.set(self.tasks, forKey: "tasksArray")
             self.tableView.reloadData();
         }
         
