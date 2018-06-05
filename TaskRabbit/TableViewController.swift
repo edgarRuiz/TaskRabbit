@@ -10,15 +10,26 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    var defaults = UserDefaults.standard;
+    //let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist");
     var tasks : [Task] = [Task]();
+    var defaults = UserDefaults.standard;
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        if let tasksFromDefault = defaults.array(forKey: "tasksArray"){
-            tasks = tasksFromDefault as! [Task];
+//        if let tasksFromDefault = defaults.array(forKey: "tasksArray"){
+//            tasks = tasksFromDefault as! [Task];
+//        }
+       // print(dataFilePath);
+        
+        
+        if let data = UserDefaults.standard.data(forKey: "tasksArray"){
+            tasks = (NSKeyedUnarchiver.unarchiveObject(with: data) as? [Task])!
+            print(tasks.count);
+        } else {
+            print("There is an issue")
         }
     }
 
@@ -39,7 +50,6 @@ class TableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath);
-        //cell.textLabel!.text = tasks[indexPath.row];
         cell.textLabel!.text = tasks[indexPath.row].task;
         if(tasks[indexPath.row].completed == true){
             cell.accessoryType = .checkmark
@@ -69,14 +79,16 @@ class TableViewController: UITableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        var task : Task = Task();
+        let task : Task = Task();
         
         let alert = UIAlertController(title: "Add task", message: "Add a task", preferredStyle: .alert);
         
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             task.task = (alert.textFields?[0].text)!;
             self.tasks.append(task);
-            self.defaults.set(self.tasks, forKey: "tasksArray")
+            let encodedData = NSKeyedArchiver.archivedData(withRootObject: self.tasks)
+            self.defaults.set(encodedData, forKey: "tasksArray")
+
             self.tableView.reloadData();
         }
         

@@ -37,6 +37,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F55F81320C743B6001D4C9D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				4F87941320C311F70073078F /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		4F55F81420C743C0001D4C9D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4F87941120C311F70073078F /* TableViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		4F55F81520C743C5001D4C9D /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		4F8269D120C60BD00025680B /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -64,10 +87,11 @@
 		4F87940E20C311F70073078F /* TaskRabbit */ = {
 			isa = PBXGroup;
 			children = (
+				4F55F81520C743C5001D4C9D /* Supporting Files */,
+				4F55F81420C743C0001D4C9D /* Controller */,
+				4F55F81320C743B6001D4C9D /* View */,
 				4F8269D120C60BD00025680B /* Model */,
 				4F87940F20C311F70073078F /* AppDelegate.swift */,
-				4F87941120C311F70073078F /* TableViewController.swift */,
-				4F87941320C311F70073078F /* Main.storyboard */,
 				4F87941620C311F70073078F /* Assets.xcassets */,
 				4F87941820C311F70073078F /* LaunchScreen.storyboard */,
 				4F87941B20C311F70073078F /* Info.plist */,
