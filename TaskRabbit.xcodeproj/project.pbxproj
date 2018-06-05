@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F8269D320C60C5C0025680B /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8269D220C60C5C0025680B /* Task.swift */; };
 		4F87941020C311F70073078F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87940F20C311F70073078F /* AppDelegate.swift */; };
 		4F87941220C311F70073078F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87941120C311F70073078F /* TableViewController.swift */; };
 		4F87941520C311F70073078F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F87941320C311F70073078F /* Main.storyboard */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F8269D220C60C5C0025680B /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		4F87940C20C311F70073078F /* TaskRabbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskRabbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F87940F20C311F70073078F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F87941120C311F70073078F /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -35,6 +37,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F8269D120C60BD00025680B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4F8269D220C60C5C0025680B /* Task.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		4F87940320C311F70073078F = {
 			isa = PBXGroup;
 			children = (
@@ -54,6 +64,7 @@
 		4F87940E20C311F70073078F /* TaskRabbit */ = {
 			isa = PBXGroup;
 			children = (
+				4F8269D120C60BD00025680B /* Model */,
 				4F87940F20C311F70073078F /* AppDelegate.swift */,
 				4F87941120C311F70073078F /* TableViewController.swift */,
 				4F87941320C311F70073078F /* Main.storyboard */,
@@ -137,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F87941220C311F70073078F /* TableViewController.swift in Sources */,
+				4F8269D320C60C5C0025680B /* Task.swift in Sources */,
 				4F87941020C311F70073078F /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -299,6 +311,7 @@
 				4F87942020C311F70073078F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

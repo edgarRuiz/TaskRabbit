@@ -10,16 +10,15 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    var newTask : String = ""
-    var tasks : [String] = ["Finish TaskRabbit app" , "Learn Thai" , "Finish iOS Udemy classes"];
     var defaults = UserDefaults.standard;
+    var tasks : [Task] = [Task]();
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         if let tasksFromDefault = defaults.array(forKey: "tasksArray"){
-            tasks = tasksFromDefault as! [String];
+            tasks = tasksFromDefault as! [Task];
         }
     }
 
@@ -33,13 +32,21 @@ class TableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        //return tasks.count;
         return tasks.count;
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath);
-        cell.textLabel!.text = tasks[indexPath.row];
+        //cell.textLabel!.text = tasks[indexPath.row];
+        cell.textLabel!.text = tasks[indexPath.row].task;
+        if(tasks[indexPath.row].completed == true){
+            cell.accessoryType = .checkmark
+        }
+        else{
+            cell.accessoryType = .none;
+        }
         return cell;
     }
     
@@ -49,8 +56,10 @@ class TableViewController: UITableViewController {
         
         if currentCell.accessoryType == .checkmark{
             currentCell.accessoryType = .none
+            tasks[indexPath.row].completed = false;
         }else{
             currentCell.accessoryType = .checkmark
+            tasks[indexPath.row].completed = true;
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -60,11 +69,13 @@ class TableViewController: UITableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
+        var task : Task = Task();
+        
         let alert = UIAlertController(title: "Add task", message: "Add a task", preferredStyle: .alert);
         
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
-            self.newTask = (alert.textFields?[0].text)!;
-            self.tasks.append(self.newTask);
+            task.task = (alert.textFields?[0].text)!;
+            self.tasks.append(task);
             self.defaults.set(self.tasks, forKey: "tasksArray")
             self.tableView.reloadData();
         }
