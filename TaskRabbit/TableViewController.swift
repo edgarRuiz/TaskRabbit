@@ -10,24 +10,20 @@ import UIKit
 
 class TableViewController: UITableViewController {
     
-    //let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Items.plist");
+    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last;
+    
     var tasks : [Task] = [Task]();
     var defaults = UserDefaults.standard;
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-//        if let tasksFromDefault = defaults.array(forKey: "tasksArray"){
-//            tasks = tasksFromDefault as! [Task];
-//        }
-       // print(dataFilePath);
-        
-        
+        print(dataFilePath);
         if let data = UserDefaults.standard.data(forKey: "tasksArray"){
             tasks = (NSKeyedUnarchiver.unarchiveObject(with: data) as? [Task])!
-            print(tasks.count);
+//            for task in tasks {
+//                print(task.completed)
+//            }
         } else {
             print("There is an issue")
         }
@@ -62,16 +58,11 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let currentCell = tableView.cellForRow(at: indexPath)! as UITableViewCell;
+        tasks[indexPath.row].completed = !tasks[indexPath.row].completed
         
-        if currentCell.accessoryType == .checkmark{
-            currentCell.accessoryType = .none
-            tasks[indexPath.row].completed = false;
-        }else{
-            currentCell.accessoryType = .checkmark
-            tasks[indexPath.row].completed = true;
-        }
-        
+        saveItems();
+
+        tableView.reloadData();
         tableView.deselectRow(at: indexPath, animated: true)
         
         
@@ -86,8 +77,7 @@ class TableViewController: UITableViewController {
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             task.task = (alert.textFields?[0].text)!;
             self.tasks.append(task);
-            let encodedData = NSKeyedArchiver.archivedData(withRootObject: self.tasks)
-            self.defaults.set(encodedData, forKey: "tasksArray")
+            self.saveItems();
 
             self.tableView.reloadData();
         }
@@ -99,6 +89,13 @@ class TableViewController: UITableViewController {
         alert.addAction(action)
         
         present(alert, animated: true, completion: nil)
+    }
+    
+    func saveItems(){
+        
+        let encodedData = NSKeyedArchiver.archivedData(withRootObject: tasks)
+        defaults.set(encodedData, forKey: "tasksArray")
+        
     }
     
 }

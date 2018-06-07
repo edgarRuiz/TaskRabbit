@@ -14,21 +14,23 @@ class Task : NSObject, NSCoding {
     var completed : Bool = false;
     
     override init(){
-        task = "";
-        completed = false;
+//        task = "";
+//        completed = false;
+//        print("init method")
     }
 
     
     required init?(coder aDecoder: NSCoder) {
         
-        let task = aDecoder.decodeObject(forKey: "task") as? String ?? "";
-        let completed = aDecoder.decodeBool(forKey: "completed");
-        self.task = task;
-        self.completed = completed;
+        let decodedTask = aDecoder.decodeObject(forKey: "task") as? String ?? "";
+        let decodedCompleted = aDecoder.decodeBool(forKey: "completed");
+        self.task = decodedTask;
+        self.completed = decodedCompleted;
     }
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(task, forKey: "task")
-        aCoder.encode(completed, forKey: "completed")
+        aCoder.encode(self.task, forKey: "task")
+        aCoder.encode(self.completed, forKey: "completed")
+
     }
 }
