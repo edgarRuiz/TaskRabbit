@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4F8269D320C60C5C0025680B /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8269D220C60C5C0025680B /* Task.swift */; };
+		4F1948A020CDF64C00E53D1E /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19489F20CDF64C00E53D1E /* CategoryTableViewController.swift */; };
+		4F3DB80C20C8BE7300D4B73C /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3DB80A20C8BE7300D4B73C /* DataModel.xcdatamodeld */; };
 		4F87941020C311F70073078F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87940F20C311F70073078F /* AppDelegate.swift */; };
 		4F87941220C311F70073078F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87941120C311F70073078F /* TableViewController.swift */; };
 		4F87941520C311F70073078F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F87941320C311F70073078F /* Main.storyboard */; };
@@ -16,7 +17,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		4F8269D220C60C5C0025680B /* Task.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		4F19489F20CDF64C00E53D1E /* CategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
+		4F3DB80B20C8BE7300D4B73C /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		4F87940C20C311F70073078F /* TaskRabbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskRabbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F87940F20C311F70073078F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F87941120C311F70073078F /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -48,6 +50,7 @@
 		4F55F81420C743C0001D4C9D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4F19489F20CDF64C00E53D1E /* CategoryTableViewController.swift */,
 				4F87941120C311F70073078F /* TableViewController.swift */,
 			);
 			name = Controller;
@@ -63,7 +66,7 @@
 		4F8269D120C60BD00025680B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4F8269D220C60C5C0025680B /* Task.swift */,
+				4F3DB80A20C8BE7300D4B73C /* DataModel.xcdatamodeld */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -172,8 +175,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F87941220C311F70073078F /* TableViewController.swift in Sources */,
-				4F8269D320C60C5C0025680B /* Task.swift in Sources */,
+				4F3DB80C20C8BE7300D4B73C /* DataModel.xcdatamodeld in Sources */,
 				4F87941020C311F70073078F /* AppDelegate.swift in Sources */,
+				4F1948A020CDF64C00E53D1E /* CategoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +342,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		4F3DB80A20C8BE7300D4B73C /* DataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				4F3DB80B20C8BE7300D4B73C /* DataModel.xcdatamodel */,
+			);
+			currentVersion = 4F3DB80B20C8BE7300D4B73C /* DataModel.xcdatamodel */;
+			path = DataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 4F87940420C311F70073078F /* Project object */;
 }

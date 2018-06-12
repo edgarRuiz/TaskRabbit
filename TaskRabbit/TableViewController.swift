@@ -7,31 +7,36 @@
 //
 
 import UIKit
+import CoreData
 
 class TableViewController: UITableViewController {
     
-    let dataFilePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).last;
-    
     var tasks : [Task] = [Task]();
-    var defaults = UserDefaults.standard;
+    var selectedCategory: Category?{
+        didSet{
+            print("this did indeed work")
+            let request : NSFetchRequest<Task> =  Task.fetchRequest();
+            request.predicate = NSPredicate(format: "parentCategory.name MATCHES %@", (selectedCategory?.name!)!)
+            do{
+                tasks = try context.fetch(request);
+            }catch{
+                print("Error fetching \(error)")
+            }
+            tableView.reloadData();
+            
+        }
+    }
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
+
 
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        print(dataFilePath);
-        if let data = UserDefaults.standard.data(forKey: "tasksArray"){
-            tasks = (NSKeyedUnarchiver.unarchiveObject(with: data) as? [Task])!
-//            for task in tasks {
-//                print(task.completed)
-//            }
-        } else {
-            print("There is an issue")
-        }
+        super.viewDidLoad()        
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -70,12 +75,14 @@ class TableViewController: UITableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        let task : Task = Task();
+        let task = Task(context: context)
         
         let alert = UIAlertController(title: "Add task", message: "Add a task", preferredStyle: .alert);
         
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             task.task = (alert.textFields?[0].text)!;
+            task.completed = false;
+            task.parentCategory = self.selectedCategory;
             self.tasks.append(task);
             self.saveItems();
 
@@ -93,10 +100,54 @@ class TableViewController: UITableViewController {
     
     func saveItems(){
         
-        let encodedData = NSKeyedArchiver.archivedData(withRootObject: tasks)
-        defaults.set(encodedData, forKey: "tasksArray")
-        
+        do {
+            try context.save()
+        }catch{
+            print("Error saving context \(error)")
+        }
     }
     
 }
 
+extension TableViewController: UISearchBarDelegate{
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        
+            
+            let request : NSFetchRequest<Task> =  Task.fetchRequest();
+            let predicate = NSPredicate(format: "task CONTAINS[cd] %@", searchBar.text!);
+            
+            request.predicate = predicate;
+            
+            do{
+                try tasks = context.fetch(request);
+            }catch{
+                print("error");
+            }
+        
+        
+        
+        
+        tableView.reloadData();
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if((searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) || searchBar.text == nil){
+            let request : NSFetchRequest<Task> =  Task.fetchRequest();
+            do{
+                tasks = try context.fetch(request);
+            }catch{
+                print("Error fetching \(error)")
+            }
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder();
+            }
+            
+            tableView.reloadData();
+
+        }
+        
+    }
+    
+}
