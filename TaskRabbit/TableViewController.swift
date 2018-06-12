@@ -135,6 +135,7 @@ extension TableViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if((searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) || searchBar.text == nil){
             let request : NSFetchRequest<Task> =  Task.fetchRequest();
+            request.predicate = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
             do{
                 tasks = try context.fetch(request);
             }catch{
