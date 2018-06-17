@@ -117,8 +117,9 @@ extension TableViewController: UISearchBarDelegate{
             
             let request : NSFetchRequest<Task> =  Task.fetchRequest();
             let predicate = NSPredicate(format: "task CONTAINS[cd] %@", searchBar.text!);
-            
-            request.predicate = predicate;
+            let catPredicate  = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
+            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate,catPredicate])
+            request.predicate = compoundPredicate;
             
             do{
                 try tasks = context.fetch(request);
