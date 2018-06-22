@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		1C1AE39EB5FDF236C401E880 /* Pods_TaskRabbit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C146F3CE7CCE4045093E39 /* Pods_TaskRabbit.framework */; };
 		4F1948A020CDF64C00E53D1E /* CategoryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F19489F20CDF64C00E53D1E /* CategoryTableViewController.swift */; };
-		4F3DB80C20C8BE7300D4B73C /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 4F3DB80A20C8BE7300D4B73C /* DataModel.xcdatamodeld */; };
+		4F50C3F320D5F887003E6E8E /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F50C3F220D5F887003E6E8E /* Category.swift */; };
+		4F50C3F520D5F894003E6E8E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F50C3F420D5F894003E6E8E /* Task.swift */; };
 		4F87941020C311F70073078F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87940F20C311F70073078F /* AppDelegate.swift */; };
 		4F87941220C311F70073078F /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87941120C311F70073078F /* TableViewController.swift */; };
 		4F87941520C311F70073078F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F87941320C311F70073078F /* Main.storyboard */; };
@@ -20,7 +21,8 @@
 /* Begin PBXFileReference section */
 		1162CB9878C05C70C730B555 /* Pods-TaskRabbit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskRabbit.release.xcconfig"; path = "Pods/Target Support Files/Pods-TaskRabbit/Pods-TaskRabbit.release.xcconfig"; sourceTree = "<group>"; };
 		4F19489F20CDF64C00E53D1E /* CategoryTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoryTableViewController.swift; sourceTree = "<group>"; };
-		4F3DB80B20C8BE7300D4B73C /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
+		4F50C3F220D5F887003E6E8E /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		4F50C3F420D5F894003E6E8E /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		4F87940C20C311F70073078F /* TaskRabbit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TaskRabbit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F87940F20C311F70073078F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F87941120C311F70073078F /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -71,7 +73,8 @@
 		4F8269D120C60BD00025680B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4F3DB80A20C8BE7300D4B73C /* DataModel.xcdatamodeld */,
+				4F50C3F220D5F887003E6E8E /* Category.swift */,
+				4F50C3F420D5F894003E6E8E /* Task.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -243,8 +246,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F87941220C311F70073078F /* TableViewController.swift in Sources */,
-				4F3DB80C20C8BE7300D4B73C /* DataModel.xcdatamodeld in Sources */,
+				4F50C3F320D5F887003E6E8E /* Category.swift in Sources */,
 				4F87941020C311F70073078F /* AppDelegate.swift in Sources */,
+				4F50C3F520D5F894003E6E8E /* Task.swift in Sources */,
 				4F1948A020CDF64C00E53D1E /* CategoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -430,19 +434,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		4F3DB80A20C8BE7300D4B73C /* DataModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				4F3DB80B20C8BE7300D4B73C /* DataModel.xcdatamodel */,
-			);
-			currentVersion = 4F3DB80B20C8BE7300D4B73C /* DataModel.xcdatamodel */;
-			path = DataModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 4F87940420C311F70073078F /* Project object */;
 }

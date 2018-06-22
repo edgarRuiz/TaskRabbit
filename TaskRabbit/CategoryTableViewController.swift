@@ -7,22 +7,17 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class CategoryTableViewController: UITableViewController {
 
-    var categories : [Category] = [Category]();
+    let realm = try! Realm();
+    var categories : Results<Category>?
     
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        let request : NSFetchRequest<Category> =  Category.fetchRequest();
-        do{
-            categories = try context.fetch(request);
-        }catch{
-            print("Error fetching \(error)")
-        }
+        categories = realm.objects(Category.self)
+        tableView.reloadData();
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,13 +32,13 @@ class CategoryTableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return categories.count
+        return categories?.count ?? 1;
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "catCell", for: indexPath);
-        cell.textLabel!.text = categories[indexPath.row].name;
+        cell.textLabel!.text = categories?[indexPath.row].name ?? "No Categories added yet!";
         
         return cell;
     }
@@ -57,19 +52,18 @@ class CategoryTableViewController: UITableViewController {
         let indexPath = tableView.indexPathForSelectedRow;
         
         let destinationController = segue.destination as! TableViewController;
-        destinationController.selectedCategory = categories[indexPath!.row];
+        destinationController.selectedCategory = categories?[indexPath!.row];
     }
     
     @IBAction func addButton(_ sender: UIBarButtonItem) {
         
-        let category = Category(context: context)
+        let category = Category();
         
         let alert = UIAlertController(title: "Add Category", message: "Add a Category", preferredStyle: .alert);
         
         let action = UIAlertAction(title: "Add Category", style: .default) { (action) in
             category.name = (alert.textFields?[0].text)!;
-            self.categories.append(category);
-            self.saveItems();
+            self.saveItems(category: category);
             
             self.tableView.reloadData();
         }
@@ -85,10 +79,12 @@ class CategoryTableViewController: UITableViewController {
         
     }
     
-    func saveItems(){
+    func saveItems(category: Category){
         
         do {
-            try context.save()
+            try realm.write{
+                realm.add(category)
+            }
         }catch{
             print("Error saving context \(error)")
         }

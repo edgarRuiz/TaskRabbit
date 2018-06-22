@@ -7,28 +7,20 @@
 //
 
 import UIKit
-import CoreData
+import RealmSwift
 
 class TableViewController: UITableViewController {
     
-    var tasks : [Task] = [Task]();
+    let realm = try! Realm();
+    var tasks : Results<Task>?; 
     var selectedCategory: Category?{
         didSet{
             print("this did indeed work")
-            let request : NSFetchRequest<Task> =  Task.fetchRequest();
-            request.predicate = NSPredicate(format: "parentCategory.name MATCHES %@", (selectedCategory?.name!)!)
-            do{
-                tasks = try context.fetch(request);
-            }catch{
-                print("Error fetching \(error)")
-            }
+            tasks = selectedCategory?.tasks.sorted(byKeyPath: "task", ascending: true)
             tableView.reloadData();
             
         }
     }
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext;
-
-
 
     override func viewDidLoad() {
         super.viewDidLoad()        
@@ -45,14 +37,14 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return tasks.count;
-        return tasks.count;
+        return tasks?.count ?? 1;
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath);
-        cell.textLabel!.text = tasks[indexPath.row].task;
-        if(tasks[indexPath.row].completed == true){
+        cell.textLabel!.text = tasks?[indexPath.row].task ?? "No Task created yet";
+        if(tasks?[indexPath.row].completed == true){
             cell.accessoryType = .checkmark
         }
         else{
@@ -63,11 +55,23 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        tasks[indexPath.row].completed = !tasks[indexPath.row].completed
+//        tasks?[indexPath.row].completed = !(tasks?[indexPath.row].completed)!
+//
+//        saveItems();
+//
+//        tableView.reloadData();
         
-        saveItems();
-
-        tableView.reloadData();
+        if let task = tasks?[indexPath.row]{
+            
+            do{
+                try realm.write {
+                    task.completed = !task.completed;
+                }
+            }catch{
+                print("error")
+            }
+            
+        }
         tableView.deselectRow(at: indexPath, animated: true)
         
         
@@ -75,16 +79,26 @@ class TableViewController: UITableViewController {
     
     @IBAction func addButtonPressed(_ sender: UIBarButtonItem) {
         
-        let task = Task(context: context)
+        let task = Task()
         
         let alert = UIAlertController(title: "Add task", message: "Add a task", preferredStyle: .alert);
         
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             task.task = (alert.textFields?[0].text)!;
             task.completed = false;
-            task.parentCategory = self.selectedCategory;
-            self.tasks.append(task);
-            self.saveItems();
+   //         task.parentCategory = self.selectedCategory;
+            
+            do{
+                try self.realm.write {
+                    self.selectedCategory?.tasks.append(task)
+                }
+            }catch{
+                print(error)
+            }
+            
+            
+            
+        //    self.saveItems();
 
             self.tableView.reloadData();
         }
@@ -97,36 +111,25 @@ class TableViewController: UITableViewController {
         
         present(alert, animated: true, completion: nil)
     }
-    
-    func saveItems(){
-        
-        do {
-            try context.save()
-        }catch{
-            print("Error saving context \(error)")
-        }
-    }
-    
 }
 
 extension TableViewController: UISearchBarDelegate{
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        
-            
-            let request : NSFetchRequest<Task> =  Task.fetchRequest();
-            let predicate = NSPredicate(format: "task CONTAINS[cd] %@", searchBar.text!);
-            let catPredicate  = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
-            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate,catPredicate])
-            request.predicate = compoundPredicate;
-            
-            do{
-                try tasks = context.fetch(request);
-            }catch{
-                print("error");
-            }
-        
+        tasks = tasks?.filter("task CONTAINS[cd] %a", searchBar.text!).sorted(byKeyPath: "task", ascending: true)
+//            let request : NSFetchRequest<Task> =  Task.fetchRequest();
+//            let predicate = NSPredicate(format: "task CONTAINS[cd] %@", searchBar.text!);
+//            let catPredicate  = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
+//            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate,catPredicate])
+//            request.predicate = compoundPredicate;
+//
+//            do{
+//                try tasks = context.fetch(request);
+//            }catch{
+//                print("error");
+//            }
+//
         
         
         
@@ -135,13 +138,14 @@ extension TableViewController: UISearchBarDelegate{
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if((searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) || searchBar.text == nil){
-            let request : NSFetchRequest<Task> =  Task.fetchRequest();
-            request.predicate = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
-            do{
-                tasks = try context.fetch(request);
-            }catch{
-                print("Error fetching \(error)")
-            }
+//            let request : NSFetchRequest<Task> =  Task.fetchRequest();
+//            request.predicate = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
+//            do{
+//                tasks = try context.fetch(request);
+//            }catch{
+//                print("Error fetching \(error)")
+//            }
+            tasks = selectedCategory?.tasks.sorted(byKeyPath: "task", ascending: true)
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder();
             }
