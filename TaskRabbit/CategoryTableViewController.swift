@@ -8,15 +8,17 @@
 
 import UIKit
 import RealmSwift
+import SwipeCellKit
 
-class CategoryTableViewController: UITableViewController {
-
+class CategoryTableViewController: UITableViewController, SwipeTableViewCellDelegate {
+  
     let realm = try! Realm();
     var categories : Results<Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         categories = realm.objects(Category.self)
+        tableView.rowHeight = 80;
         tableView.reloadData();
     }
 
@@ -37,9 +39,9 @@ class CategoryTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "catCell", for: indexPath);
+        let cell = tableView.dequeueReusableCell(withIdentifier: "catCell", for: indexPath) as! SwipeTableViewCell;
         cell.textLabel!.text = categories?[indexPath.row].name ?? "No Categories added yet!";
-        
+        cell.delegate = self;
         return cell;
     }
 
@@ -90,4 +92,33 @@ class CategoryTableViewController: UITableViewController {
         }
     }
 
+    
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
+        guard orientation == .right else {return nil}
+        
+        let deleteAction = SwipeAction(style: .destructive, title: "Delete") {action, indexPath in
+            do{
+                try self.realm.write {
+                    self.realm.delete(self.categories![indexPath.row])
+                   // self.tableView.reloadData()
+                }
+            }catch{
+                print(error)
+            }
+        }
+        
+        deleteAction.image = UIImage(named:"delete")
+        
+        return [deleteAction];
+        
+    }
+    
+    func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
+        var options = SwipeTableOptions()
+        options.expansionStyle = .destructive
+        options.transitionStyle = .border
+        return options
+    }
+    
+    
 }

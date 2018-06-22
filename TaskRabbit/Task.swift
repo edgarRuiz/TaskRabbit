@@ -14,5 +14,6 @@ class Task : Object{
     @objc dynamic var completed : Bool = false;
     @objc dynamic var task : String = ""
     var parentCategory = LinkingObjects(fromType: Category.self , property: "tasks")
+    @objc var date = Date();
 
 }

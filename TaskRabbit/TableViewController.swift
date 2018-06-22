@@ -86,6 +86,7 @@ class TableViewController: UITableViewController {
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             task.task = (alert.textFields?[0].text)!;
             task.completed = false;
+            print("The date = \(task.date)");
    //         task.parentCategory = self.selectedCategory;
             
             do{
