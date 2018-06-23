@@ -42,7 +42,7 @@ class TableViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "taskCell", for: indexPath);
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath);
         cell.textLabel!.text = tasks?[indexPath.row].task ?? "No Task created yet";
         if(tasks?[indexPath.row].completed == true){
             cell.accessoryType = .checkmark
@@ -55,12 +55,6 @@ class TableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        tasks?[indexPath.row].completed = !(tasks?[indexPath.row].completed)!
-//
-//        saveItems();
-//
-//        tableView.reloadData();
-        
         if let task = tasks?[indexPath.row]{
             
             do{
@@ -72,6 +66,8 @@ class TableViewController: UITableViewController {
             }
             
         }
+        tableView.reloadData()
+
         tableView.deselectRow(at: indexPath, animated: true)
         
         
