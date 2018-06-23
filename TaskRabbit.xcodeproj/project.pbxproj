@@ -16,6 +16,7 @@
 		4F87941520C311F70073078F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F87941320C311F70073078F /* Main.storyboard */; };
 		4F87941720C311F70073078F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F87941620C311F70073078F /* Assets.xcassets */; };
 		4F87941A20C311F70073078F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F87941820C311F70073078F /* LaunchScreen.storyboard */; };
+		4F92961820DDCC5200182352 /* SwipeCellTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F92961720DDCC5200182352 /* SwipeCellTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		4F87941620C311F70073078F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F87941920C311F70073078F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F87941B20C311F70073078F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F92961720DDCC5200182352 /* SwipeCellTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeCellTableViewController.swift; sourceTree = "<group>"; };
 		78C146F3CE7CCE4045093E39 /* Pods_TaskRabbit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TaskRabbit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0819BA2E279D650DCC12798 /* Pods-TaskRabbit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TaskRabbit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TaskRabbit/Pods-TaskRabbit.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,6 +59,7 @@
 		4F55F81420C743C0001D4C9D /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4F92961720DDCC5200182352 /* SwipeCellTableViewController.swift */,
 				4F19489F20CDF64C00E53D1E /* CategoryTableViewController.swift */,
 				4F87941120C311F70073078F /* TableViewController.swift */,
 			);
@@ -251,6 +254,7 @@
 				4F50C3F320D5F887003E6E8E /* Category.swift in Sources */,
 				4F87941020C311F70073078F /* AppDelegate.swift in Sources */,
 				4F50C3F520D5F894003E6E8E /* Task.swift in Sources */,
+				4F92961820DDCC5200182352 /* SwipeCellTableViewController.swift in Sources */,
 				4F1948A020CDF64C00E53D1E /* CategoryTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
