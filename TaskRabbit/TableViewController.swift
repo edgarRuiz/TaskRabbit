@@ -8,14 +8,14 @@
 
 import UIKit
 import RealmSwift
+import ChameleonFramework
 
-class TableViewController: UITableViewController {
+class TableViewController: SwipeCellTableViewController {
     
     let realm = try! Realm();
     var tasks : Results<Task>?; 
     var selectedCategory: Category?{
         didSet{
-            print("this did indeed work")
             tasks = selectedCategory?.tasks.sorted(byKeyPath: "task", ascending: true)
             tableView.reloadData();
             
@@ -23,7 +23,10 @@ class TableViewController: UITableViewController {
     }
 
     override func viewDidLoad() {
-        super.viewDidLoad()        
+        super.viewDidLoad()
+        tableView.rowHeight = 80;
+        tableView.separatorStyle = .none
+        
         
     }
 
@@ -36,14 +39,21 @@ class TableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //return tasks.count;
         return tasks?.count ?? 1;
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath);
+        let cell = super.tableView(tableView, cellForRowAt: indexPath)
+        
         cell.textLabel!.text = tasks?[indexPath.row].task ?? "No Task created yet";
+        
+        let percentage = CGFloat(indexPath.row) / CGFloat((tasks?.count)!);
+        let color : UIColor = (HexColor((selectedCategory?.color)!)!).darken(byPercentage: percentage)!
+        cell.backgroundColor = color;
+        cell.textLabel?.textColor = ContrastColorOf(/*UIColor(white: 1.0, alpha: 1.0)*/color, returnFlat: true) //UIColor(white: 1, alpha: 1)//
+
+        
         if(tasks?[indexPath.row].completed == true){
             cell.accessoryType = .checkmark
         }
@@ -51,6 +61,7 @@ class TableViewController: UITableViewController {
             cell.accessoryType = .none;
         }
         return cell;
+        
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -82,8 +93,6 @@ class TableViewController: UITableViewController {
         let action = UIAlertAction(title: "Add task", style: .default) { (action) in
             task.task = (alert.textFields?[0].text)!;
             task.completed = false;
-            print("The date = \(task.date)");
-   //         task.parentCategory = self.selectedCategory;
             
             do{
                 try self.realm.write {
@@ -92,11 +101,7 @@ class TableViewController: UITableViewController {
             }catch{
                 print(error)
             }
-            
-            
-            
-        //    self.saveItems();
-
+        
             self.tableView.reloadData();
         }
         
@@ -108,6 +113,17 @@ class TableViewController: UITableViewController {
         
         present(alert, animated: true, completion: nil)
     }
+    
+    override func updateModel(at indexPath: IndexPath){
+        do{
+            try self.realm.write {
+                self.realm.delete(self.tasks![indexPath.row])
+            }
+        }catch{
+            print(error)
+        }
+    }
+    
 }
 
 extension TableViewController: UISearchBarDelegate{
@@ -115,40 +131,18 @@ extension TableViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
         tasks = tasks?.filter("task CONTAINS[cd] %a", searchBar.text!).sorted(byKeyPath: "task", ascending: true)
-//            let request : NSFetchRequest<Task> =  Task.fetchRequest();
-//            let predicate = NSPredicate(format: "task CONTAINS[cd] %@", searchBar.text!);
-//            let catPredicate  = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
-//            let compoundPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicate,catPredicate])
-//            request.predicate = compoundPredicate;
-//
-//            do{
-//                try tasks = context.fetch(request);
-//            }catch{
-//                print("error");
-//            }
-//
-        
-        
-        
         tableView.reloadData();
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if((searchBar.text!.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty) || searchBar.text == nil){
-//            let request : NSFetchRequest<Task> =  Task.fetchRequest();
-//            request.predicate = NSPredicate(format: "parentCategory.name MATCHES %@",(selectedCategory?.name!)!)
-//            do{
-//                tasks = try context.fetch(request);
-//            }catch{
-//                print("Error fetching \(error)")
-//            }
             tasks = selectedCategory?.tasks.sorted(byKeyPath: "task", ascending: true)
             DispatchQueue.main.async {
                 searchBar.resignFirstResponder();
             }
             
             tableView.reloadData();
-
+            
         }
         
     }
