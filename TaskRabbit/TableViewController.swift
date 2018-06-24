@@ -29,6 +29,16 @@ class TableViewController: SwipeCellTableViewController {
         
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+    
+        navigationItem.title = selectedCategory?.name;
+        navigationController?.navigationBar.barTintColor = UIColor(hexString: (selectedCategory?.color)!)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.barTintColor = UIColor(white: 1.0, alpha: 0.0)
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
